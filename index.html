@@ -730,7 +730,7 @@ Think elegant, romantic, and celebration-ready.</p><br>
             justify-content:center;
             padding:0;
         ">
-            <i class="fa-solid fa-music" style="color: #ffffff;"></i>
+            <img src="assets/images/music icon.png" alt="Music" style="width: 24px; height: 24px; object-fit: contain;">
         </button>
     </div>
 
@@ -771,11 +771,11 @@ Think elegant, romantic, and celebration-ready.</p><br>
         var updateButtonUI = function() {
             if (isPlaying) {
                 musicBtn.style.background = '#6B8E7F';
-                musicBtn.innerHTML = '<i class="fa-solid fa-music" style="color: #ffffff;"></i>';
+                musicBtn.innerHTML = '<img src="assets/images/music icon.png" alt="Music" style="width: 24px; height: 24px; object-fit: contain;">';
                 musicBtn.setAttribute('aria-label', 'Music is playing. Click to mute.');
             } else {
                 musicBtn.style.background = '#D4B5A0';
-                musicBtn.innerHTML = '<i class="fa-solid fa-music" style="color: #ffffff; opacity:0.5;"></i>';
+                musicBtn.innerHTML = '<img src="assets/images/music icon.png" alt="Music" style="width: 24px; height: 24px; object-fit: contain; opacity:0.5;">';
                 musicBtn.setAttribute('aria-label', 'Music is muted. Click to play.');
             }
         };
