@@ -688,27 +688,39 @@ Think elegant, romantic, and celebration-ready.</p><br>
     <!-- end of page-wrapper -->
 
     <!-- Background Music -->
-    <audio id="bg-music" src="assets/images/til i found u.mp3" preload="auto" loop style="display:none;"></audio>
+    <audio id="bg-music" preload="auto" loop playsinline style="display:none;">
+        <source src="assets/images/til i found u.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         var audio = document.getElementById('bg-music');
-        var playMusic = function() {
+        var hasStarted = false;
+        
+        // Android-specific fix: play must be called directly in event handler
+        var startMusic = function(e) {
+            if (hasStarted) return;
+            hasStarted = true;
+            
+            // Set volume and play immediately in the same call stack
             audio.volume = 0.6;
-            var playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(function() {
-                    // If autoplay is blocked, play on first user gesture
-                    var once = function() {
-                        audio.play();
-                        document.removeEventListener('click', once);
-                        document.removeEventListener('touchstart', once);
-                    };
-                    document.addEventListener('click', once);
-                    document.addEventListener('touchstart', once);
-                });
-            }
+            audio.muted = false;
+            
+            // Call play() directly without promise handling first
+            audio.play();
+            
+            // Clean up listeners
+            document.removeEventListener('click', startMusic, true);
+            document.removeEventListener('touchstart', startMusic, true);
+            document.removeEventListener('touchend', startMusic, true);
+            document.removeEventListener('scroll', startMusic, true);
         };
-        playMusic();
+        
+        // Use capture phase (true) for better Android compatibility
+        document.addEventListener('click', startMusic, true);
+        document.addEventListener('touchstart', startMusic, true);
+        document.addEventListener('touchend', startMusic, true);
+        document.addEventListener('scroll', startMusic, true);
 
         // Pause music when prenup video section is in view, resume when out
         var videoSection = document.getElementById('video');
@@ -732,7 +744,6 @@ Think elegant, romantic, and celebration-ready.</p><br>
         }
     });
     </script>
-
 
 
     <!-- All JavaScript files
@@ -795,4 +806,5 @@ Think elegant, romantic, and celebration-ready.</p><br>
     <script src="assets/js/script.js"></script>
 </body>
 </html>
+
 
